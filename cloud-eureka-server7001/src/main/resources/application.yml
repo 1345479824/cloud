@@ -1,0 +1,33 @@
+#单个eureka服务注册中心这样写
+#server:
+#  port: 7001
+#
+#euraka:
+#  instance:
+#    hostname: localhost #eureka服务端的实例名称
+#  client:
+#    #false表示不向注册中心注册自己
+#    register-with-eureka: false
+#    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+#    fetch-registry: false
+#    service-url:
+#    #设置与eureka server交互的地址查询服务和注册服务都需要依赖这个地址
+#      defaultZone: http://${euraka.instance.hostname}:${server.port}/eureka/
+
+#多个eureka服务注册中心这样写
+server:
+  port: 7001
+
+eureka:
+  instance:
+    hostname: eureka7001.com #eureka服务端实例名称
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://eureka7002.com:7002/eureka/  #绑定eureka7002(多集群)
+  #server:
+    #禁用自我保护，默认注册在euraka中的微服务会间隔一段时间就给eureka发一个心跳，当这个心跳周期没有检测到来自这个微服务
+    #的心跳，那么立刻取消对这个微服务的注册（默认心跳周期为90秒）
+    #enable-self-preservation: false
+    #eviction-interval-timer-in-ms: 2000 设置心跳时间为2秒

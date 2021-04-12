@@ -1,0 +1,28 @@
+server:
+  port: 8002
+
+spring:
+  application:
+    name: cloud-payment-service #集群的时候应该是通过这玩意来确定是不是同一个服务提供者，这玩意名字相同，那么就是同一个服务提供者
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql://localhost:3306/db2019?userUnicode=true&characterEncoding=utf-8&userSSL=false
+    username: root
+    password: root
+
+eureka:
+  client:
+    #表示是否将自己注册金eurekaserver，默认为true
+    register-with-eureka: true
+    #是否从eurekaserver抓取已有的注册信息，默认为true。单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      #defaultZone: http://localhost:7001/eureka 单机版
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka #集群版
+  instance:
+    #instance-id: payment8002 更改payment8002在eureka中的名字为payment8002，本来为cloud-payment-service:8002
+    prefer-ip-address: true #访问路径可以显示注册进euraka的微服务的ip地址（这儿为cloud-provider-payment8002微服务的ip地址）
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  type-aliases-package: com.atguigu.springcloud.entities
