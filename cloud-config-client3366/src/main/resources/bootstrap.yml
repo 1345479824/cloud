@@ -1,0 +1,33 @@
+#优先级比application.yml高，系统会优先加载bootstrap.yml配置文件
+#application.yml和bootstrap.yml合在一起才是总的配置
+server:
+  port: 3366
+
+spring:
+  application:
+    name: config-client
+  cloud:
+    config:
+      label: main
+      name: config  #配置文件名称
+      profile: dev  #读取后缀名称  读取main分支的config-dev文件
+      uri: http://localhost:3344 #配置中心地址
+  #rabbitmq相关配置
+  rabbitmq:
+    host: 192.168.1.24
+    port: 5672
+    username: guest
+    password: guest
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+#暴露监控端口，否则github上改了配置文件，3366这个微服务感知不到
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

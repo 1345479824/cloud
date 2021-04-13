@@ -1,0 +1,39 @@
+server:
+  port: 3344
+
+spring:
+  application:
+    name: cloud-config-center
+  cloud:
+    config:
+      server:
+        git:
+          #通过http的方式访问。ssh的方式会无法访问github，不知道为什么
+          uri: https://github.com/1345479824/springboot-config.git #github上git仓库名字
+          search-paths:
+            - springboot-config #搜索目录
+          force-pull: true
+          username: 1345479824
+          password: jiangpeng1997!
+      #读取分支
+      label: main
+  #rabbitmq的相关配置
+  rabbitmq:
+    host: 192.168.1.24
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+
+
+
+#rabbitmq相关配置，暴露bus刷新配置的短点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: 'bus-refresh'
